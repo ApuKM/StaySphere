@@ -16,3 +16,11 @@ export interface BenefitItem {
   title: string;
   description: string;
 }
+
+export interface StatItem {
+  id: number;
+  value: string;
+  label: string;
+  subtext: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+}
