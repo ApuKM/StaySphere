@@ -3,3 +3,10 @@ export interface NavLink {
   href: string;
   icon: React.ElementType;
 }
+
+export interface HeroSlide {
+  id: number;
+  image: string;
+  title: string;
+  subtitle: string;
+}

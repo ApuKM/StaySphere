@@ -97,9 +97,6 @@ export default function Footer() {
               <Button isIconOnly className="bg-slate-200/50 text-slate-600 hover:text-white hover:bg-pink-600 transition-all rounded-full" aria-label="Instagram">
                 <BsInstagram size={18} />
               </Button>
-              <Button isIconOnly className="bg-slate-200/50 text-slate-600 hover:text-white hover:bg-blue-700 transition-all rounded-full" aria-label="LinkedIn">
-                <BsInstagram size={18} />
-              </Button>
             </div>
           </div>
           
