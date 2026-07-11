@@ -10,3 +10,9 @@ export interface HeroSlide {
   title: string;
   subtitle: string;
 }
+
+export interface BenefitItem {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
+  description: string;
+}
