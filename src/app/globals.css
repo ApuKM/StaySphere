@@ -1,26 +1,13 @@
 @import "tailwindcss";
+@import "@heroui/styles"; 
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  --color-brand-primary: #E11D48;    /* Rose / Coral Red */
+  --color-brand-secondary: #0369A1;  /* Deep Sky Blue (Map, Location) */
+  --color-brand-accent: #FBBF24;     /* Amber / Gold (Rating Stars) */
+  /* Whitish Theme Colors */
+  --color-brand-bg: #FFFFFF;         /* Clean White Background */
+  --color-brand-bg-soft: #F8FAFC;    /* Soft Grayish White for Cards/Sections */
+  --color-brand-text: #1E293B;       /* Dark Charcoal for readable text */
+  --color-brand-border: #E2E8F0;     /* Light Gray for borders */
 }
