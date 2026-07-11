@@ -86,7 +86,7 @@ export default function Statistics(): React.JSX.Element {
             
             return (
               <motion.div key={stat.id} variants={cardVariants}>
-                <Card className="h-full border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 rounded-2xl bg-slate-50/50">
+                <Card className="h-full border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 rounded-2xl bg-brand-bg-soft">
                   
                   {/* Icon & Title Area */}
                   <Card.Header className="flex flex-col items-center pt-8 pb-2 text-center">
