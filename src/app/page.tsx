@@ -1,3 +1,4 @@
+import FaqAndNewsletter from "@/components/homepage/FaqAndNewsletter";
 import Hero from "@/components/homepage/Hero";
 import BecomeHost from "@/components/homepage/HostSection";
 import Statistics from "@/components/homepage/Statistics";
@@ -10,6 +11,7 @@ export default function Home() {
       <Statistics />
       <BecomeHost />
       <Testimonials />
+      <FaqAndNewsletter />
     </div>
   );
 }

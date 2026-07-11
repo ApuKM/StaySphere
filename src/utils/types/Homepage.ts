@@ -24,3 +24,9 @@ export interface StatItem {
   subtext: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
 }
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
