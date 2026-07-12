@@ -140,7 +140,7 @@ export default function AppNavbar() {
               </Dropdown.Popover>
             </Dropdown>
           ) : (
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button size="sm" className="bg-brand-primary text-white font-semibold rounded-full px-5 py-4 text-sm shadow-sm hover:bg-rose-600 transition-all">
                 Login
               </Button>
@@ -193,7 +193,7 @@ export default function AppNavbar() {
         Logout
       </button>
     ) : (
-      <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="mt-2">
+      <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)} className="mt-2">
         <Button size="sm" className="w-full bg-brand-primary text-white font-semibold rounded-full py-5">
           Login
         </Button>
