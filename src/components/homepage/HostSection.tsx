@@ -126,7 +126,7 @@ export default function BecomeHost(): React.JSX.Element {
                 const Icon = benefit.icon;
                 return (
                   <motion.div
-                    key={index}
+                    id={index}
                     variants={itemVariants}
                     className="flex gap-4 items-start"
                   >

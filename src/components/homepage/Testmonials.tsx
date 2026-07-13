@@ -93,7 +93,7 @@ export default function Testimonials(): React.JSX.Element {
         >
           {TESTIMONIALS.map((item) => (
             <motion.div
-              key={item.id}
+              id={item.id}
               variants={cardVariants}
               whileHover={{ y: -5 }}
               className="relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col h-full group"
@@ -107,7 +107,7 @@ export default function Testimonials(): React.JSX.Element {
               <div className="flex gap-1 mb-6 relative z-10">
                 {[...Array(item.rating)].map((_, i) => (
                   <Star
-                    key={i}
+                    id={i}
                     size={18}
                     className="text-brand-accent fill-brand-accent"
                   />

@@ -72,7 +72,8 @@ export default function AppNavbar() {
             const isActive = pathname === item.href;
             return (
               <Link
-                key={item.href}
+                key={item.name}
+                id={item.href}
                 href={item.href}
                 className={`flex items-center gap-2 py-2 transition-colors relative ${
                   isActive
@@ -108,7 +109,10 @@ export default function AppNavbar() {
                     </p>
                   </div>
                   <Avatar className="w-8 h-8">
-                    <Avatar.Image alt={user.name} src={user?.image ?? undefined} />
+                    <Avatar.Image
+                      alt={user.name}
+                      src={user?.image ?? undefined}
+                    />
                     <Avatar.Fallback className="bg-rose-100 text-brand-primary font-bold">
                       {user.name.charAt(0)}
                     </Avatar.Fallback>
@@ -172,7 +176,7 @@ export default function AppNavbar() {
             const isActive = pathname === item.href;
             return (
               <Link
-                key={item.href}
+                id={item.href}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-colors ${

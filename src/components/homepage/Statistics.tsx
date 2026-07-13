@@ -85,7 +85,7 @@ export default function Statistics(): React.JSX.Element {
             const Icon = stat.icon;
             
             return (
-              <motion.div key={stat.id} variants={cardVariants}>
+              <motion.div id={stat.id} variants={cardVariants}>
                 <Card className="h-full border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 rounded-2xl bg-brand-bg-soft">
                   
                   {/* Icon & Title Area */}
