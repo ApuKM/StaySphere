@@ -56,13 +56,24 @@ export default function AddListingForm({ user }: { user: Session["user"] }) {
       };
 
       console.log("Form Payload:", payload);
+      const response = await fetch("/api/listings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-      // Simulated success for now
-      setTimeout(() => {
-        toast.success("Property listed successfully!");
-        reset();
-        router.push("/");
-      }, 1500);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Something went wrong!");
+      }
+
+      toast.success("Property listed successfully!");
+      reset();
+      router.push("/explore");
+
     } catch (error) {
       console.error(error);
       toast.danger("Failed to create listing");
