@@ -44,43 +44,86 @@ export async function POST(request: Request) {
 
 
 
+// ১. Query-এর জন্য একটি নির্দিষ্ট টাইপ ডিফাইন করা হলো
+interface ListingQuery {
+  status: string;
+  location?: { $regex: string; $options: string };
+  propertyType?: { $regex: string; $options: string };
+  $or?: Array<Record<string, { $regex: string; $options: string }>>;
+}
+
+const PAGE_SIZE = 12;
+
+const normalizeSearchValue = (value: string) =>
+  decodeURIComponent(value)
+    .replace(/\+/g, " ")
+    .replace(/-/g, " ")
+    .trim();
+
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 export async function GET(request: Request) {
   try {
     const client = await clientPromise;
     const db = client.db("stay_sphere");
 
     const { searchParams } = new URL(request.url);
-    const location = searchParams.get("location");
-    const propertyType = searchParams.get("propertyType");
+    const rawLocation = searchParams.get("location");
+    const rawPropertyType = searchParams.get("propertyType");
+    const searchQuery = searchParams.get("searchQuery");
+    const priceSort = searchParams.get("priceSort") || "default";
+    const page = Math.max(Number(searchParams.get("page") || "1"), 1);
 
-    // ডিফল্ট কুয়েরি: শুধুমাত্র 'active' লিস্টিংগুলো দেখাবে
-    const query: any = { status: "active" };
+    const query: ListingQuery = { status: "active" };
 
-    // যদি URL-এ location থাকে, তবে কুয়েরিতে যোগ করবে (case-insensitive)
-    if (location) {
-      query.location = { $regex: location, $options: "i" };
-    }
-    
-    // যদি URL-এ propertyType থাকে, তবে কুয়েরিতে যোগ করবে
-    if (propertyType) {
-      query.propertyType = propertyType;
+    if (rawLocation) {
+      const location = normalizeSearchValue(rawLocation);
+      query.location = { $regex: escapeRegExp(location), $options: "i" };
     }
 
-    // ডেটাবেজ থেকে ডেটা নিয়ে আসা এবং নতুনগুলো আগে দেখানো (createdAt: -1)
+    if (rawPropertyType) {
+      const propertyType = normalizeSearchValue(rawPropertyType);
+      query.propertyType = {
+        $regex: `^${escapeRegExp(propertyType)}$`,
+        $options: "i",
+      };
+    }
+
+    if (searchQuery) {
+      const searchRegex = { $regex: escapeRegExp(searchQuery), $options: "i" };
+      query.$or = [
+        { title: searchRegex },
+        { location: searchRegex },
+        { shortDescription: searchRegex },
+      ];
+    }
+
+    const sort: Record<string, 1 | -1> =
+      priceSort === "low-to-high"
+        ? { pricePerNight: 1 }
+        : priceSort === "high-to-low"
+        ? { pricePerNight: -1 }
+        : { createdAt: -1 };
+
+    const total = await db.collection("listings").countDocuments(query);
     const listings = await db
       .collection("listings")
       .find(query)
-      .sort({ createdAt: -1 })
+      .sort(sort)
+      .skip((page - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE)
       .toArray();
 
     return NextResponse.json(
-      { listings },
+      { listings, total },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error("Database read error:", error);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Database read error:", errorMessage);
     return NextResponse.json(
-      { error: "Internal Server Error", details: error.message },
+      { error: "Internal Server Error", details: errorMessage },
       { status: 500 }
     );
   }

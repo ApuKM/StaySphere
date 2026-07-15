@@ -87,7 +87,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
             </div>
 
             {/* ডান পাশে HeroUI বাটন */}
-            <Link href={`/spaces/${listing._id}`} className="no-underline">
+            <Link href={`/browse/${listing._id}`} className="no-underline">
               <Button
                 size="sm"
                 className="bg-brand-primary text-white font-semibold rounded-xl px-4 py-2 hover:opacity-90 transition-all duration-200 shadow-sm flex items-center gap-1 group/btn"

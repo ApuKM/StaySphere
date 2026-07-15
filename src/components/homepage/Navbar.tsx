@@ -125,7 +125,7 @@ export default function AppNavbar() {
                 <Dropdown.Menu className="outline-none flex flex-col gap-0.5">
                   <Dropdown.Item
                     className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 cursor-pointer transition-colors hover:bg-slate-50 hover:text-brand-text"
-                    onPress={() => router.push("/profile")}
+                    onPress={() => router.push("/my-profile")}
                   >
                     My Profile
                   </Dropdown.Item>

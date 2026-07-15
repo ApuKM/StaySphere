@@ -190,7 +190,7 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
 
               {isAvailable ? (
                 <Link
-                  href={`/spaces/${listing._id}/checkout`}
+                  href={`/spaces/${listing._id}`}
                   className="block w-full"
                 >
                   <button className="w-full rounded-2xl bg-brand-primary py-4 px-4 font-bold text-white shadow-md hover:opacity-95 transition-all active:scale-[0.99]">

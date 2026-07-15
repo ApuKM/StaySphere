@@ -63,7 +63,7 @@ export default function FaqAndNewsletter(): React.JSX.Element {
             
             <Accordion>
               {FAQS.map((faq) => (
-                <Accordion.Item id={faq.id} className="border-b border-slate-200">
+                <Accordion.Item key={faq.id} className="border-b border-slate-200">
                   <Accordion.Heading>
                     <Accordion.Trigger className="w-full flex items-center justify-between py-5 text-left group">
                       <span className="font-bold text-base text-slate-800 group-hover:text-brand-primary transition-colors">
