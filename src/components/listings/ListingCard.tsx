@@ -1,11 +1,11 @@
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { FiMapPin, FiUsers, FiHeart } from "react-icons/fi";
+import { FiMapPin, FiUsers, FiHeart, FiArrowRight } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 import { Listing } from "@/utils/types/Listings";
-
-
+import { Button } from "@heroui/react";
 
 interface ListingCardProps {
   listing: Listing;
@@ -15,22 +15,24 @@ export default function ListingCard({ listing }: ListingCardProps) {
   return (
     <Link href={`/browse/${listing._id}`} className="group block">
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-        
         {/* ইমেজ সেকশন */}
         <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
           <Image
-            src={listing?.images[0] || "https://images.unsplash.com/photo-1560347876-aeef00ee58a4"}
+            src={
+              listing?.images[0] ||
+              "https://images.unsplash.com/photo-1560347876-aeef00ee58a4"
+            }
             alt={listing.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          
+
           {/* ফেভারিট বাটন - Airbnb স্টাইল */}
-          <button 
+          <button
             className="absolute top-3 right-3 p-2 bg-white/70 hover:bg-white backdrop-blur-sm rounded-full text-slate-500 hover:text-brand-primary transition-colors z-10"
             onClick={(e) => {
-              e.preventDefault(); 
+              e.preventDefault();
               // TODO: Add to wishlist logic
             }}
           >
@@ -65,23 +67,41 @@ export default function ListingCard({ listing }: ListingCardProps) {
             <div className="w-1 h-1 rounded-full bg-slate-300"></div>
             <div className="flex items-center gap-1.5">
               <IoBedOutline className="text-slate-400 text-lg" />
-              <span>{listing.bedrooms} Bed{listing.bedrooms > 1 ? 's' : ''}</span>
+              <span>
+                {listing.bedrooms} Bed{listing.bedrooms > 1 ? "s" : ""}
+              </span>
             </div>
           </div>
 
           <div className="border-t border-slate-100 mb-4"></div>
 
-          {/* দাম */}
-          <div className="flex items-end gap-1 mt-auto">
-            <span className="text-xl font-bold text-brand-text">
-              ${listing.pricePerNight}
-            </span>
-            <span className="text-sm text-slate-500 font-medium mb-0.5">
-              / night
-            </span>
+          <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-brand-border">
+            {/* বাম পাশে দাম */}
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-black text-brand-text">
+                ${listing.pricePerNight}
+              </span>
+              <span className="text-xs text-slate-500 font-medium">
+                / night
+              </span>
+            </div>
+
+            {/* ডান পাশে HeroUI বাটন */}
+            <Link href={`/spaces/${listing._id}`} className="no-underline">
+              <Button
+                size="sm"
+                className="bg-brand-primary text-white font-semibold rounded-xl px-4 py-2 hover:opacity-90 transition-all duration-200 shadow-sm flex items-center gap-1 group/btn"
+              >
+                View Details
+                {/* মাউস হোভার করলে আইকনটি সামান্য ডান পাশে সরবে */}
+                <FiArrowRight
+                  className="transition-transform duration-200 group-hover/btn:translate-x-0.5"
+                  size={14}
+                />
+              </Button>
+            </Link>
           </div>
         </div>
-        
       </div>
     </Link>
   );
