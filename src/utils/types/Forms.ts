@@ -9,3 +9,12 @@ export type ListingFormData = {
   description: string;
   imageUrl?: string;
 };
+
+export type Payload = {
+  hostInfo?: {
+    userId: string;
+    name: string;
+    email: string;
+    phone: string;
+  };
+} & ListingFormData;
