@@ -16,6 +16,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Session } from "@/utils/auth-client";
 import { ListingFormData } from "@/utils/types/Forms";
+import { PostAListing } from "@/lib/actions/Listings";
 
 const inputBaseStyles =
   "w-full bg-white border border-slate-300 text-sm text-brand-text rounded-xl px-4 py-3 placeholder:text-slate-400 transition-all duration-200 outline-none hover:border-slate-400 focus:outline-none focus:ring-0 focus:border-brand-primary shadow-sm";
@@ -56,14 +57,7 @@ export default function AddListingForm({ user }: { user: Session["user"] }) {
       };
 
       console.log("Form Payload:", payload);
-      const response = await fetch("/api/listings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
+      const response = await PostAListing(payload)
       const result = await response.json();
 
       if (!response.ok) {
