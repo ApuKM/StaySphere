@@ -131,9 +131,9 @@ export default function AppNavbar() {
                   </Dropdown.Item>
                   <Dropdown.Item
                     className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 cursor-pointer transition-colors hover:bg-slate-50 hover:text-brand-text"
-                    onPress={() => router.push("/items/manage")}
+                    onPress={() => router.push("/support")}
                   >
-                    Manage Properties
+                    Support
                   </Dropdown.Item>
 
                   <Separator className="bg-brand-border my-1.5 h-px w-full" />

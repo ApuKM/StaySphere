@@ -75,7 +75,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
           <div className="border-t border-slate-100 mb-4"></div>
 
-          <div className="flex items-center justify-between gap-3 mt-auto pt-4 border-t border-brand-border">
+          <div className="flex items-center justify-between flex-wrap gap-3 mt-auto pt-4 border-t border-brand-border">
             {/* বাম পাশে দাম */}
             <div className="flex items-baseline gap-1">
               <span className="text-2xl font-black text-brand-text">
@@ -92,7 +92,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
                 size="sm"
                 className="bg-brand-primary text-white font-semibold rounded-xl px-4 py-2 hover:opacity-90 transition-all duration-200 shadow-sm flex items-center gap-1 group/btn"
               >
-                View Details
+                View
                 {/* মাউস হোভার করলে আইকনটি সামান্য ডান পাশে সরবে */}
                 <FiArrowRight
                   className="transition-transform duration-200 group-hover/btn:translate-x-0.5"
