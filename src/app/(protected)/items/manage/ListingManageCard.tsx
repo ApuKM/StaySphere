@@ -19,6 +19,7 @@ import { TextArea } from "@heroui/react";
 import { FiMapPin, FiHome, FiDollarSign, FiEdit3, FiTrash2, FiEye } from "react-icons/fi";
 // import { deleteListing, updateListing } from "@/lib/actions/Listings";
 import { Listing } from "@/utils/types/Listings";
+import { DeleteHostListing, EditHostListing } from "@/lib/actions/Listings";
 
 const inputBaseStyles =
   "w-full bg-brand-bg border border-brand-border text-sm text-brand-text rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-none focus:border-brand-primary shadow-xs";
@@ -29,7 +30,7 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
   // ফিজিক্যাল ফর্ম স্টেট ম্যানেজমেন্ট
   const [formData, setFormData] = useState({
     title: listing.title,
-    pricePerNight: listing.pricePerNight,
+    pricePerNight: Number(listing.pricePerNight),
     location: listing.location,
     description: listing.description,
   });
@@ -37,7 +38,7 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
   // আপডেট অ্যাকশন হ্যান্ডলার
   const handleSave = async () => {
     try {
-      const res = await updateListing(listing._id, formData);
+      const res = await EditHostListing(listing._id, formData);
       if (res && res.modifiedCount > 0) {
         toast.success("Space updated successfully!");
       }
@@ -50,7 +51,7 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
   // ডিলিট অ্যাকশন হ্যান্ডলার
   const handleDelete = async (id: string) => {
     try {
-      const res = await deleteListing(id);
+      const res = await DeleteHostListing(id);
       if (res && res.deletedCount > 0) {
         toast.success("Space removed successfully!");
       }
@@ -110,7 +111,7 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
 
           <div className="flex flex-wrap gap-2">
             {/* View Details */}
-            <Link href={`/spaces/${listing._id}`}>
+            <Link href={`/browse/${listing._id}`}>
               <Button className="bg-brand-primary font-semibold text-white hover:opacity-90 flex items-center gap-1.5" size="sm">
                 <FiEye size={14} /> View
               </Button>
@@ -213,13 +214,13 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
                       <AlertDialog.Heading className="mt-4 text-xl font-bold">
                         Remove this Space?
                       </AlertDialog.Heading>
-                      <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                      <p className="mt-2 text-sm text-slate-500 leading-relaxed">
                         Are you sure you want to delete this listing? This action is permanent and cannot be undone.
                       </p>
                     </AlertDialog.Header>
 
                     <AlertDialog.Footer className="mt-6 flex justify-end gap-3 border-t border-brand-border pt-4">
-                      <Button slot="close" className="border-brand-border text-brand-text hover:bg-brand-bg-soft">
+                      <Button slot="close" variant="outline" className="border-brand-border text-brand-text hover:bg-brand-bg-soft">
                         Cancel
                       </Button>
                       <Button slot="close" variant="danger" onPress={() => handleDelete(listing._id)}>

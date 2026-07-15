@@ -18,3 +18,10 @@ export type Payload = {
     phone: string;
   };
 } & ListingFormData;
+
+export interface UpdateListing {
+  title: string;
+  pricePerNight: number;
+  location: string;
+  description: string;
+}

@@ -14,10 +14,10 @@ export const metadata = {
 
 export default async function ManageItemsPage() {
   const user = await getUserSession();
-  console.log("User ID:", user?.id);
+  // console.log("User ID:", user?.id);
   const listings: Listing[] = await getHostListings(user?.id);
-  console.log("Listings response:", listings);
-  console.log("Listings length:", listings?.length || 0);
+  // console.log("Listings response:", listings);
+  // console.log("Listings length:", listings?.length || 0);
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text py-10 px-4 sm:px-6 lg:px-8">
