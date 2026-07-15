@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       bedrooms: body.bedrooms ? Number(body.bedrooms) : 1,
       shortDescription: body.shortDescription || "",
       description,
-      imageUrl: body.imageUrl || null,
+      images: body.images || null,
       hostInfo: body.hostInfo || null,
       status: "active",
       createdAt: new Date(),

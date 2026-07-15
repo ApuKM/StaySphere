@@ -1,5 +1,6 @@
-
+import SpaceImageGallery from "@/components/listings/SpaceImageGallery";
 import { getListingById } from "@/lib/apis/Listings";
+import { Listing } from "@/utils/types/Listings";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,7 +14,7 @@ import {
   FiStar,
   FiShare2,
   FiHeart,
-  FiHome
+  FiHome,
 } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 
@@ -31,14 +32,17 @@ const formatDate = (dateString: string | Date) => {
 
 export default async function SpaceDetailsPage({ params }: PageProps) {
   const { id } = await params;
-  const listing = await getListingById(id);
+  const listing: Listing = await getListingById(id);
 
   if (!listing) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-brand-bg text-brand-text">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Space not found</h2>
-          <Link href="/explore" className="text-brand-primary hover:underline font-semibold">
+          <Link
+            href="/explore"
+            className="text-brand-primary hover:underline font-semibold"
+          >
             Back to Explore Spaces
           </Link>
         </div>
@@ -51,7 +55,6 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-brand-bg py-12 px-4 font-sans text-brand-text sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        
         {/* ─── 1. Header Section ─── */}
         <div className="mb-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -59,7 +62,7 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
               <h1 className="text-2xl font-extrabold tracking-tight text-brand-text sm:text-3xl lg:text-4xl">
                 {listing.title}
               </h1>
-              
+
               <div className="mt-3 flex flex-wrap items-center gap-4 text-sm font-medium">
                 <div className="flex items-center gap-1">
                   <FiStar className="fill-brand-accent text-brand-accent" />
@@ -69,7 +72,9 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
                 <span className="text-slate-300">•</span>
                 <div className="flex items-center gap-1 text-brand-secondary">
                   <FiMapPin className="text-lg" />
-                  <span className="hover:underline cursor-pointer">{listing.location}</span>
+                  <span className="hover:underline cursor-pointer">
+                    {listing.location}
+                  </span>
                 </div>
               </div>
             </div>
@@ -88,14 +93,7 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
 
         {/* ─── 2. Image Banner ─── */}
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-brand-border bg-brand-bg-soft shadow-xs mb-8">
-          <Image
-            src={listing.imageUrl || "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"}
-            alt={listing.title}
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 1200px) 100vw, 1200px"
-          />
+          <SpaceImageGallery images={listing.images} title={listing.title}/>
           <span className="absolute bottom-4 right-4 bg-brand-bg/95 backdrop-blur-md border border-brand-border px-4 py-2 rounded-xl text-xs font-bold shadow-xs uppercase tracking-wider">
             Property: {listing.propertyType}
           </span>
@@ -103,10 +101,8 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
 
         {/* ─── 3. Main Split Content ─── */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          
           {/* Left Side: Details & Highlights */}
           <div className="flex flex-col space-y-8 lg:col-span-2">
-            
             {/* Quick Property Highlights using Soft BG */}
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div className="flex items-center gap-3 rounded-2xl border border-brand-border bg-brand-bg-soft p-4">
@@ -114,8 +110,12 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
                   <FiUsers className="text-xl" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Capacity</p>
-                  <p className="text-sm font-bold text-brand-text">{listing.maxGuests} Guests</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Capacity
+                  </p>
+                  <p className="text-sm font-bold text-brand-text">
+                    {listing.maxGuests} Guests
+                  </p>
                 </div>
               </div>
 
@@ -124,8 +124,12 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
                   <IoBedOutline className="text-2xl" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Bedrooms</p>
-                  <p className="text-sm font-bold text-brand-text">{listing.bedrooms} Room{listing.bedrooms > 1 ? 's' : ''}</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Bedrooms
+                  </p>
+                  <p className="text-sm font-bold text-brand-text">
+                    {listing.bedrooms} Room{listing.bedrooms > 1 ? "s" : ""}
+                  </p>
                 </div>
               </div>
 
@@ -134,9 +138,14 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
                   <FiCalendar className="text-xl" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase">Listed Since</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase">
+                    Listed Since
+                  </p>
                   <p className="text-sm font-bold text-brand-text">
-                    {new Date(listing.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                    {new Date(listing.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </p>
                 </div>
               </div>
@@ -163,13 +172,16 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
 
           {/* Right Side: Sticky Booking Panel & Host Info */}
           <div className="space-y-6 lg:sticky lg:top-6 h-fit">
-            
             {/* Reservation Card */}
             <div className="rounded-3xl border border-brand-border bg-brand-bg p-6 shadow-md">
               <div className="flex items-baseline justify-between border-b border-brand-border pb-4 mb-5">
                 <div>
-                  <span className="text-3xl font-black text-brand-text">${listing.pricePerNight}</span>
-                  <span className="text-sm font-medium text-slate-500 ml-1">/ night</span>
+                  <span className="text-3xl font-black text-brand-text">
+                    ${listing.pricePerNight}
+                  </span>
+                  <span className="text-sm font-medium text-slate-500 ml-1">
+                    / night
+                  </span>
                 </div>
                 <div className="flex items-center gap-1 text-xs font-bold text-slate-500 bg-brand-bg-soft border border-brand-border px-2.5 py-1 rounded-lg">
                   <FiClock className="text-brand-secondary" /> Instant Book
@@ -177,20 +189,23 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
               </div>
 
               {isAvailable ? (
-                <Link href={`/spaces/${listing._id}/checkout`} className="block w-full">
+                <Link
+                  href={`/spaces/${listing._id}/checkout`}
+                  className="block w-full"
+                >
                   <button className="w-full rounded-2xl bg-brand-primary py-4 px-4 font-bold text-white shadow-md hover:opacity-95 transition-all active:scale-[0.99]">
                     Reserve Space
                   </button>
                 </Link>
               ) : (
-                <button 
-                  disabled 
+                <button
+                  disabled
                   className="w-full cursor-not-allowed rounded-2xl bg-brand-bg-soft border border-brand-border py-4 px-4 font-bold text-slate-400"
                 >
                   Currently Fully Booked
                 </button>
               )}
-              
+
               <p className="mt-4 text-center text-xs text-slate-400 font-medium">
                 No immediate charges apply. Secure booking process.
               </p>
@@ -232,7 +247,6 @@ export default async function SpaceDetailsPage({ params }: PageProps) {
                 </a>
               </div>
             </div>
-
           </div>
         </div>
       </div>

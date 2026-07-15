@@ -8,7 +8,7 @@ export interface Listing {
   bedrooms: number;
   shortDescription?: string;
   description: string;
-  imageUrl?: string;
+  images: string[]; 
   hostInfo?: {
     userId: string;
     name: string;
@@ -16,4 +16,5 @@ export interface Listing {
     phone: string;
   };
   status: string;
+  createdAt: string;
 }

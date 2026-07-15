@@ -1,4 +1,4 @@
-import React, { type Key } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import { FiMapPin, FiUsers, FiHeart } from "react-icons/fi";
@@ -19,7 +19,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
         {/* ইমেজ সেকশন */}
         <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
           <Image
-            src={listing.imageUrl || "https://images.unsplash.com/photo-1560347876-aeef00ee58a4"}
+            src={listing?.images[0] || "https://images.unsplash.com/photo-1560347876-aeef00ee58a4"}
             alt={listing.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
