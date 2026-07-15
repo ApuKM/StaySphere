@@ -25,7 +25,7 @@ export default function AppNavbar() {
 
   const baseLinks: NavLink[] = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Explore", href: "/explore", icon: Compass },
+    { name: "Explore", href: "/browse", icon: Compass },
     { name: "About", href: "/about", icon: Info },
   ];
 
@@ -176,6 +176,7 @@ export default function AppNavbar() {
             const isActive = pathname === item.href;
             return (
               <Link
+               key={item.href}
                 id={item.href}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}

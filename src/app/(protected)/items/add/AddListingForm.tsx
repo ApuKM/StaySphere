@@ -72,7 +72,7 @@ export default function AddListingForm({ user }: { user: Session["user"] }) {
 
       toast.success("Property listed successfully!");
       reset();
-      router.push("/explore");
+      router.push("/browse");
 
     } catch (error) {
       console.error(error);
