@@ -1,10 +1,6 @@
 import { getUserToken } from "./session";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-if (!baseUrl) {
-  throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
-}
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const AuthHeader = async (): Promise<Record<string, string>> => {
   const token = await getUserToken();
@@ -13,11 +9,12 @@ export const AuthHeader = async (): Promise<Record<string, string>> => {
 };
 
 export const serverFetch = async (path: string) => {
+  const url = path.startsWith("http") ? path : `${baseUrl}${path}`;
   const headers = {
     "Content-Type": "application/json",
     ...(await AuthHeader()),
   };
-  const res = await fetch(`${baseUrl}${path}`, { headers });
+  const res = await fetch(url, { headers });
   return res.json();
 };
 
@@ -26,7 +23,7 @@ export const MutateData = async <T>(
   data?: T,
   method = "POST",
 ) => {
-  const res = await fetch(`${baseUrl}${path}`, {
+  const res = await fetch(path, {
     method: method,
     headers: {
       "Content-Type": "application/json",

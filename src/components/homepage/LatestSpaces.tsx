@@ -1,18 +1,26 @@
+import clientPromise from "@/lib/databse/mongodb";
 import { Listing } from "@/utils/types/Listings";
 import ListingCard from "../listings/ListingCard";
 
 
-async function getLatestSpaces() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/listings/latest`, {
-    next: { revalidate: 60 },
-  });
+async function getLatestSpaces(): Promise<Listing[]> {
+  const client = await clientPromise;
+  const db = client.db("stay_sphere");
+  const latestListings = await db
+    .collection("listings")
+    .find({ status: "active" })
+    .sort({ _id: -1 })
+    .limit(6)
+    .toArray();
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch featured spaces");
-  }
-
-  return res.json();
+  return latestListings.map((listing) => ({
+    ...listing,
+    _id: listing._id?.toString?.() ?? String(listing._id),
+    createdAt:
+      listing.createdAt instanceof Date
+        ? listing.createdAt.toISOString()
+        : String(listing.createdAt),
+  })) as Listing[];
 }
 
 export default async function HomePageFeaturedSection() {
