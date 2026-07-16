@@ -3,7 +3,7 @@ import {  Poppins } from "next/font/google";
 import "./globals.css";
 import AppNavbar from "@/components/homepage/Navbar";
 import Footer from "@/components/homepage/Footer";
-import { ToastContent } from "@heroui/react";
+import { Toast } from "@heroui/react";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -29,7 +29,7 @@ export default function RootLayout({
         <AppNavbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
-        <ToastContent />
+        <Toast.Provider />
       </body>
     </html>
   );

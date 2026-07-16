@@ -16,8 +16,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Session } from "@/utils/auth-client";
-import { ListingFormData } from "@/utils/types/Forms";
-import { PostAListing } from "@/lib/actions/Listings";
+import { ListingFormData, Payload } from "@/utils/types/Forms";
 
 const inputBaseStyles =
   "w-full bg-brand-bg border border-brand-border text-sm text-brand-text rounded-xl px-4 py-3 placeholder:text-slate-400 transition-all duration-200 outline-none hover:border-slate-400 focus:outline-none focus:ring-0 focus:border-brand-primary shadow-xs";
@@ -100,7 +99,7 @@ export default function AddListingForm({ user }: { user: Session["user"] }) {
       }
 
       // ডেটাবেজে পাঠানোর ফাইনাল পেলোড স্ট্রাকচার
-      const payload = {
+      const payload: Payload = {
         ...data,
         images: uploadedImageUrls, // ডিবি-তে স্ট্রিং অ্যারে হিসেবে যাচ্ছে
         hostInfo: {
@@ -113,11 +112,17 @@ export default function AddListingForm({ user }: { user: Session["user"] }) {
       };
 
       console.log("Form Payload with Hosted Images:", payload);
-      const response = await PostAListing(payload);
-      const result = await response.json();
+      const response = await fetch("/api/listings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
+      const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.error || "Something went wrong!");
+        throw new Error(result?.error || "Something went wrong!");
       }
 
       toast.success("Property listed successfully!");

@@ -8,6 +8,8 @@ export type ListingFormData = {
   shortDescription: string;
   description: string;
   imageUrl?: string;
+  images?: string[];
+  status?: string;
 };
 
 export type Payload = {
