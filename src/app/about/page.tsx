@@ -29,9 +29,9 @@ export default function AboutPage() {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-primary/10 text-brand-primary border border-brand-primary/20 mb-6">
             <FiCompass className="animate-spin-slow" /> Redefining Hospitality
           </span>
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.1] mb-6">
             Your Gateway to <br />
-            <span className="bg-gradient-to-r from-brand-primary to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-primary to-brand-secondary bg-clip-text text-transparent">
               Extraordinary Stays
             </span>
           </h1>
@@ -59,19 +59,19 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <h3 className="text-4xl lg:text-5xl font-black text-brand-primary">12K+</h3>
+              <h3 className="text-4xl lg:text-5xl font-black text-brand-secondary">12K+</h3>
               <p className="text-xs lg:text-sm text-slate-400 uppercase tracking-widest mt-2 font-medium">Premium Spaces</p>
             </div>
             <div>
-              <h3 className="text-4xl lg:text-5xl font-black text-brand-primary">85K+</h3>
+              <h3 className="text-4xl lg:text-5xl font-black text-brand-secondary">85K+</h3>
               <p className="text-xs lg:text-sm text-slate-400 uppercase tracking-widest mt-2 font-medium">Happy Travelers</p>
             </div>
             <div>
-              <h3 className="text-4xl lg:text-5xl font-black text-brand-primary">4.9★</h3>
+              <h3 className="text-4xl lg:text-5xl font-black text-brand-secondary">4.9★</h3>
               <p className="text-xs lg:text-sm text-slate-400 uppercase tracking-widest mt-2 font-medium">Average Rating</p>
             </div>
             <div>
-              <h3 className="text-4xl lg:text-5xl font-black text-brand-primary">150+</h3>
+              <h3 className="text-4xl lg:text-5xl font-black text-brand-secondary">150+</h3>
               <p className="text-xs lg:text-sm text-slate-400 uppercase tracking-widest mt-2 font-medium">Global Cities</p>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function AboutPage() {
       <section className="py-20 lg:py-28 relative overflow-hidden">
         <div className="absolute inset-0 bg-brand-primary/5 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#000)] pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-3xl sm:text-5xl font-black mb-6 tracking-tight">Ready to step into the Sphere?</h2>
+          <h2 className="text-3xl sm:text-4xl font-black mb-6 tracking-tight">Ready to step into the Sphere?</h2>
           <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed mb-10">
             Join thousands of travelers who have already shifted to a more personalized and friction-free booking style. Or, monetize your extra space now!
           </p>

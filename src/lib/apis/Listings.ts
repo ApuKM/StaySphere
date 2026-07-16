@@ -1,4 +1,6 @@
 import { serverFetch } from "../core/server";
+import clientPromise from "@/lib/databse/mongodb";
+import { Listing } from "@/utils/types/Listings";
 
 // ফিল্টারগুলোর টাইপ ডিফাইন 
 interface ListingFilters {
@@ -49,5 +51,20 @@ export const getHostListings = async (hostId: string | undefined) => {
   if (!hostId) {
     throw new Error("Host ID is required");
   }
-  return serverFetch(`/api/listings/host/${hostId}`);
+  const res = await serverFetch(`/api/listings/host/${hostId}`);
+  if (Array.isArray(res)) return res;
+  if (res && Array.isArray((res as any).listings)) return (res as any).listings;
+  if (res && (res as any).message) {
+    throw new Error((res as any).message);
+  }
+  return [] as any[];
+};
+
+// Server-side helper: fetch host listings directly from DB (bypasses HTTP auth)
+export const getHostListingsServer = async (hostId: string | undefined): Promise<Listing[]> => {
+  if (!hostId) throw new Error("Host ID is required");
+  const client = await clientPromise;
+  const db = client.db("stay_sphere");
+  const listings = await db.collection("listings").find({ "hostInfo.userId": hostId }).toArray();
+  return listings as unknown as Listing[];
 };

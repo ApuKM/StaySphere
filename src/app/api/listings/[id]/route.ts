@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import clientPromise from "@/lib/databse/mongodb";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
 
 export async function GET(
   request: Request,
@@ -39,6 +41,11 @@ export async function PATCH(
     const { id } = await params;
     const body = await request.json(); // ফ্রন্টএন্ড থেকে পাঠানো আপডেট ডেটা
 
+    // authenticate
+    const session = await auth.api.getSession({ headers: request.headers });
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
     // MongoDB ObjectId ভ্যালিডেশন
     if (!ObjectId.isValid(id)) {
       return NextResponse.json({ message: "Invalid Listing ID format" }, { status: 400 });
@@ -48,6 +55,15 @@ export async function PATCH(
     const db = client.db("stay_sphere");
     
     const query = { _id: new ObjectId(id) };
+
+    // Ensure the requester owns the listing
+    const existing = await db.collection("listings").findOne(query);
+    if (!existing) {
+      return NextResponse.json({ message: "Listing not found" }, { status: 404 });
+    }
+    if (existing.hostInfo?.userId !== session.user.id) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
 
     const updateData = {
       ...body,
@@ -95,7 +111,21 @@ export async function DELETE(
     
     // নির্দিষ্ট লিস্টিং ডিলিট করতে _id ব্যবহার করা হলো
     const query = { _id: new ObjectId(id) };
-    
+
+    // authenticate
+    const session = await auth.api.getSession({ headers: request.headers });
+    if (!session?.user) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const existing = await db.collection("listings").findOne(query);
+    if (!existing) {
+      return NextResponse.json({ message: "Listing not found" }, { status: 404 });
+    }
+    if (existing.hostInfo?.userId !== session.user.id) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
     const result = await db.collection("listings").deleteOne(query);
 
     // deleteOne সফল হলে deletedCount ১ (বা তার বেশি) হবে

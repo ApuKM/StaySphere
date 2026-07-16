@@ -5,7 +5,7 @@ import { FiPlus, FiGrid } from "react-icons/fi";
 import { Listing } from "@/utils/types/Listings";
 import ListingManageCard from "./ListingManageCard";
 import { getUserSession } from "@/lib/core/session";
-import { getHostListings } from "@/lib/apis/Listings";
+import { getHostListingsServer } from "@/lib/apis/Listings";
 
 export const metadata = {
   title: "Manage Spaces | Project Name",
@@ -15,8 +15,8 @@ export const metadata = {
 export default async function ManageItemsPage() {
   const user = await getUserSession();
   // console.log("User ID:", user?.id);
-  const listings: Listing[] = await getHostListings(user?.id);
-  // console.log("Listings response:", listings);
+  const listings: Listing[] = await getHostListingsServer(user?.id);
+  console.log("Listings response:", listings);
   // console.log("Listings length:", listings?.length || 0);
 
   return (
@@ -26,10 +26,10 @@ export default async function ManageItemsPage() {
         {/* ─── Top Header & Title ─── */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-brand-border pb-6">
           <div>
-            <h1 className="text-3xl font-black tracking-tight text-brand-text flex items-center gap-2">
+            <h1 className="text-3xl font-bold text-brand-text flex items-center gap-2">
               <FiGrid className="text-brand-primary" size={28} /> Manage Your Spaces
             </h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 mt-2">
               View, edit details, or remove your listed items and accommodation spaces.
             </p>
           </div>

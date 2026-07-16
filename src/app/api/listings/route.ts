@@ -1,9 +1,16 @@
 import clientPromise from "@/lib/databse/mongodb";
 import { NextResponse } from "next/server";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    // Verify session/token
+    const session = await auth.api.getSession({ headers: request.headers });
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const { title, description, pricePerNight, location, propertyType } = body;
     if (!title || !description || !pricePerNight || !location || !propertyType) {
       return NextResponse.json(
@@ -23,7 +30,13 @@ export async function POST(request: Request) {
       shortDescription: body.shortDescription || "",
       description,
       images: body.images || null,
-      hostInfo: body.hostInfo || null,
+      // ensure host info comes from authenticated session
+      hostInfo: {
+        userId: session.user.id,
+        name: session.user.name,
+        email: session.user.email,
+        phone: session.user.phone,
+      },
       status: "active",
       createdAt: new Date(),
     };

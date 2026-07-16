@@ -19,6 +19,8 @@ import { LoginFormData } from "@/utils/types/AuthTypes";
 
 const LoginForm = (): React.JSX.Element => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   const {
     register,
@@ -44,7 +46,7 @@ const LoginForm = (): React.JSX.Element => {
         return;
       }
       if (authData) {
-        router.push("/");
+        router.push(redirectUrl ?? "/");
         console.log("Login successful:", data);
       }
     } catch (err) {
