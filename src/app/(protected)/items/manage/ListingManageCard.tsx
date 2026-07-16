@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Chip,
@@ -17,9 +18,7 @@ import {
 } from "@heroui/react";
 import { TextArea } from "@heroui/react";
 import { FiMapPin, FiHome, FiDollarSign, FiEdit3, FiTrash2, FiEye } from "react-icons/fi";
-// import { deleteListing, updateListing } from "@/lib/actions/Listings";
 import { Listing } from "@/utils/types/Listings";
-import { DeleteHostListing, EditHostListing } from "@/lib/actions/Listings";
 
 const inputBaseStyles =
   "w-full bg-brand-bg border border-brand-border text-sm text-brand-text rounded-xl px-4 py-3 placeholder:text-slate-400 focus:outline-none focus:border-brand-primary shadow-xs";
@@ -35,28 +34,50 @@ export default function ListingManageCard({ listing }: { listing: Listing }) {
     description: listing.description,
   });
 
+  const router = useRouter();
+
   // আপডেট অ্যাকশন হ্যান্ডলার
   const handleSave = async () => {
     try {
-      const res = await EditHostListing(listing._id, formData);
-      if (res && res.modifiedCount > 0) {
-        toast.success("Space updated successfully!");
+      const response = await fetch(`/api/listings/${listing._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result?.message || "Failed to update listing.");
       }
+
+      toast.success("Space updated successfully!");
       modalState.close();
-    } catch (error) {
-      toast.danger("Failed to update space.");
+      router.refresh();
+    } catch (error: any) {
+      console.error("Update error:", error);
+      toast.danger(error.message || "Failed to update space.");
     }
   };
 
   // ডিলিট অ্যাকশন হ্যান্ডলার
   const handleDelete = async (id: string) => {
     try {
-      const res = await DeleteHostListing(id);
-      if (res && res.deletedCount > 0) {
-        toast.success("Space removed successfully!");
+      const response = await fetch(`/api/listings/${id}`, {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result?.message || "Failed to delete listing.");
       }
-    } catch (error) {
-      toast.danger("Failed to delete space.");
+
+      toast.success("Space removed successfully!");
+      router.refresh();
+    } catch (error: any) {
+      console.error("Delete error:", error);
+      toast.danger(error.message || "Failed to delete space.");
     }
   };
 

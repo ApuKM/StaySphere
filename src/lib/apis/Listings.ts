@@ -52,8 +52,26 @@ export const getHostListings = async (hostId: string | undefined) => {
     throw new Error("Host ID is required");
   }
   const res = await serverFetch(`/api/listings/host/${hostId}`);
-  if (Array.isArray(res)) return res;
-  if (res && Array.isArray((res as any).listings)) return (res as any).listings;
+  if (Array.isArray(res)) {
+    return res.map((listing: any) => ({
+      ...listing,
+      _id: String(listing._id),
+      createdAt:
+        listing.createdAt instanceof Date
+          ? listing.createdAt.toISOString()
+          : String(listing.createdAt),
+    }));
+  }
+  if (res && Array.isArray((res as any).listings)) {
+    return (res as any).listings.map((listing: any) => ({
+      ...listing,
+      _id: String(listing._id),
+      createdAt:
+        listing.createdAt instanceof Date
+          ? listing.createdAt.toISOString()
+          : String(listing.createdAt),
+    }));
+  }
   if (res && (res as any).message) {
     throw new Error((res as any).message);
   }
@@ -66,5 +84,12 @@ export const getHostListingsServer = async (hostId: string | undefined): Promise
   const client = await clientPromise;
   const db = client.db("stay_sphere");
   const listings = await db.collection("listings").find({ "hostInfo.userId": hostId }).toArray();
-  return listings as unknown as Listing[];
+  return listings.map((listing: any) => ({
+    ...listing,
+    _id: String(listing._id),
+    createdAt:
+      listing.createdAt instanceof Date
+        ? listing.createdAt.toISOString()
+        : String(listing.createdAt),
+  })) as Listing[];
 };
