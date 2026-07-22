@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest) {
   }
 
   if (!session?.user) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     // clear any existing token cookie when not authenticated
     const response = NextResponse.redirect(loginUrl);
